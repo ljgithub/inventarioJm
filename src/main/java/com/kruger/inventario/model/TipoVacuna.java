@@ -7,33 +7,23 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "vacuna")
+@Table(name = "tipo_vacuna")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class Vacuna {
+public class TipoVacuna {
     @Id
     @GeneratedValue(strategy = javax.persistence.GenerationType.IDENTITY)
-    private Integer idVacuna;
+    @Column(name = "id_tipo_vacuna")
+    private Integer idTipoVacuna;
 
     @NotEmpty(message = "El nombre de la vacuna es obligatorio")
-    @Column(nullable = false)
+    @Size(min = 10 ,max = 30, message = "El nombre de la vacuna debe tener entre 10 y 30 caracteres")
     private String nombre;
 
-    @NotEmpty(message = "La descripcion de la vacuna es obligatoria")
-    @Column(nullable = false)
-    private String descripcion;
-
     private boolean estado = true;
-
-    @ManyToOne
-    @JoinColumn(name = "id_usuario")
-    private Usuario usuario;
-
-    @ManyToOne
-    @JoinColumn(name = "id_tipo_vacuna")
-    private TipoVacuna tipoVacuna;
 }
