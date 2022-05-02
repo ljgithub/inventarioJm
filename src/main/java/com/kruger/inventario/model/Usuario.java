@@ -1,14 +1,18 @@
 package com.kruger.inventario.model;
 
+import com.kruger.inventario.util.Utilitarios;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.Valid;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Date;
 
 @Entity
 @Table(name = "usuario")
@@ -29,6 +33,11 @@ public class Usuario {
     @Column(nullable = false)
     private String apellidos;
 
+
+    @Temporal(TemporalType.DATE)
+    @Column(nullable = false)
+    private Date fechaNacimiento;
+
     @NotEmpty(message = "El telefono es obligatorio")
     @Column(nullable = false)
     @Size(min = 7, max = 9, message = "El telefono debe tener al menos 7 digitos")
@@ -41,7 +50,7 @@ public class Usuario {
 
     @NotEmpty(message = "La direccion no puede estar vacia")
     @Column(nullable = false)
-    @Size(min = 50 , max = 200, message = "La direccion debe tener entre 50 y 200 caracteres")
+    @Size(min = 20, max = 200, message = "La direccion debe tener entre 50 y 200 caracteres")
     private String direccion;
 
     @NotEmpty(message = "La cedula es obligatoria")
@@ -54,14 +63,16 @@ public class Usuario {
     @Column(nullable = false)
     private String email;
 
-    @NotEmpty(message = "Este campo es obligatorio")
-    @Column(nullable = false)
-    @Size(min = 8, max = 12, message = "La contraseña debe tener entre 8 y 12 caracteres")
-    private String password;
+    private String username = Utilitarios.generateUsername();
+    private String password = Utilitarios.generatePassword();
 
     private boolean estado = true;
 
     @ManyToOne
     @JoinColumn(name = "id_rol")
     private Rol rol;
+
+
+
+
 }

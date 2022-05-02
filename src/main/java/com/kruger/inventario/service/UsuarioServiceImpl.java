@@ -61,6 +61,7 @@ public class UsuarioServiceImpl implements IUsuarioService {
             currentUsuario.setDireccion(usuario.getDireccion());
             currentUsuario.setCedula(usuario.getCedula());
             currentUsuario.setEmail(usuario.getEmail());
+            currentUsuario.setUsername(usuario.getUsername());
             currentUsuario.setPassword(usuario.getPassword());
             currentUsuario.setEstado(usuario.isEstado());
 
@@ -78,7 +79,8 @@ public class UsuarioServiceImpl implements IUsuarioService {
     public DtoInfo deleteEmpleado(Usuario usuario) {
         var currentUsuario = findUsuarioByCedula(usuario.getCedula());
         if(currentUsuario.getIdUsuario()>0){
-            usuarioRepository.delete(currentUsuario);
+            currentUsuario.setEstado(false);
+            usuarioRepository.save(currentUsuario);
             dtoInfo.setExito(true);
             dtoInfo.setMensaje("Usuario eliminado");
         }else {
